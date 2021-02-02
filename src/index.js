@@ -9,13 +9,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from './reducers';
 import App from './components/App';
 
-const middleware = [
-    thunk,
-];
+const middleware = [thunk];
 
-const store = createStore(reducers, composeWithDevTools(
-    applyMiddleware(...middleware),
-  ));
+const store = createStore(reducers, composeWithDevTools(applyMiddleware(...middleware)));
 
 // const store = createStore(reducers, applyMiddleware(thunk));
 ReactDOM.render(

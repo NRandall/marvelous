@@ -1,24 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import 'animate.css';
+import { setTeams } from '../actions';
+
+import './App.css';
+import Nav from './Nav';
 import CharacterSearch from './CharacterSearch';
 import SearchResults from './SearchResults';
-import './App.css';
-// const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-// const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+import TeamList from './TeamList';
+import StatModal from './StatModal';
+import TeamsModal from './TeamsModal';
 
-export const App = (props) => {
+export const App = ({ teamModalVisibility, characterModalVisibility, selectedCharacterDetail, setTeams }) => {
+    useEffect(() => {
+        const teams = JSON.parse(localStorage.getItem('teams'));
+        if (teams !== null) {
+            setTeams(teams);
+        }
+    }, [setTeams]);
+    const renderCharacterModal = () => {
+        return characterModalVisibility && selectedCharacterDetail ? <StatModal /> : null;
+    };
+    const renderTeamModal = () => {
+        return teamModalVisibility ? <TeamsModal /> : null;
+    };
     return (
-        <div className="container pad">
-            {/* <iframe src="https://app.showit.co/demo" width={vw} height={vh}></iframe> */}
+        <div>
+            <Nav />
+            <TeamList />
             <CharacterSearch />
             <SearchResults />
+            {renderCharacterModal()}
+            {renderTeamModal()}
         </div>
     );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = ({ teamModalVisibility, characterModalVisibility, selectedCharacterDetail }) => ({
+    teamModalVisibility,
+    characterModalVisibility,
+    selectedCharacterDetail,
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { setTeams };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

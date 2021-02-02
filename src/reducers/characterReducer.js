@@ -1,31 +1,42 @@
 import { cloneDeep } from 'lodash';
 
-export const allCharacterReducer = (characters = [], action) => {
-    if (action.type === 'GET_CHARACTERS') {
-        return action.payload;
+export const characterSearchReducer = (characters = [], action) => {
+    if (action.type === 'GET_CHARACTERS' && action.payload.data) {
+        const characterIndex = {};
+        const results = [];
+        action.payload.data.results.forEach((character) => {
+            let coreCharacter = character.name.replace(/ \(.*/, '').replace(/\/.*/, '').toLowerCase();
+            character.thumbnail.path = character.thumbnail.path.replace('http', 'https');
+            if (characterIndex[coreCharacter] === undefined) {
+                characterIndex[coreCharacter] = results.length;
+                results.push({
+                    name: character.name.replace(/ \(.*/, ''),
+                    main: character,
+                    variants: [],
+                });
+            } else {
+                // Check character popularity base on how many stories they appear in,
+                // If they are more popular, assume they are the main variant.
+                // Else, put them in the variants collection
+                if (character.stories.available < results[characterIndex[coreCharacter]].main.stories.available) {
+                    results[characterIndex[coreCharacter]].variants.push(character);
+                } else {
+                    results[characterIndex[coreCharacter]].variants.push(results[characterIndex[coreCharacter]].main);
+                    results[characterIndex[coreCharacter]].main = character;
+                }
+            }
+        });
+        // If characters appear in no stories, exclude them
+        return results.filter((character) => character.main.stories.available > 0);
+    } else if (action.type === 'GET_CHARACTERS' && action.payload === 'reset') {
+        return [];
     }
     return characters;
 };
 
-export const characterQuery = (query = '', action) => {
-    if (action.type === 'SET_QUERY') {
-        return action.payload;
+export const selectedCharacterReducer = (selectedCharacterDetail = null, action) => {
+    if (action.type === 'SET_SELECTED_CHARACTER') {
+        return cloneDeep(action.payload);
     }
-    return query;
-};
-
-export const buildTeam = (team = [], action) => {
-    if (action.type === 'ADD_MEMBER') {
-        return [...team, action.payload];
-    }
-    return team;
-};
-
-export const buildTeamIndex = (teamIndex = {}, action) => {
-    if (action.type === 'ADD_MEMBER') {
-        const newIndex = cloneDeep(teamIndex)
-        newIndex[action.payload.main.id] = true;
-        return newIndex;
-    }
-    return teamIndex;
+    return selectedCharacterDetail;
 };

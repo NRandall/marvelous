@@ -1,68 +1,81 @@
 import { debounce } from 'lodash';
 import marvel from '../api/marvel';
 
-// Filters list of found characters so that variants of characters are grouped with the most popular variant shown.
-// Also removes characters that have 0 stories
-const filterVariantCharacters = (res) => {
-    const characterIndex = {};
-    const results = [];
-    res.data.data.results.forEach((character) => {
-        let coreCharacter = character.name.replace(/ \(.*/, '').replace(/\/.*/, '').toLowerCase();
-        character.thumbnail.path = character.thumbnail.path.replace('http', 'https');
-        if (characterIndex[coreCharacter] === undefined) {
-            characterIndex[coreCharacter] = results.length;
-            results.push({
-                name: character.name.replace(/ \(.*/, ''),
-                main: character,
-                variants: [],
-            });
-        } else {
-            // Check character popularity base on how many stories they appear in, if they are more popular, assume they are the main variant
-            if (character.stories.available < results[characterIndex[coreCharacter]].main.stories.available) {
-                results[characterIndex[coreCharacter]].variants.push(character);
-            } else {
-                results[characterIndex[coreCharacter]].variants.push(results[characterIndex[coreCharacter]].main);
-                results[characterIndex[coreCharacter]].main = character;
-            }
-        }
-    });
-    return results.filter((character) => character.main.stories.available > 0);
-};
-
 // Gets a list of characters based on user query (matches start of name)
-const searchForCharacter = debounce(async (dispatch, query) => {
-    if (query && query.trim() !== '' && query.length > 1) {
-        const res = await marvel.get('/v1/public/characters', {
-            params: {
-                nameStartsWith: query,
-            },
-        });
+const searchForCharacterAsync = debounce(async (dispatch, query) => {
+    const res = await marvel.get('/v1/public/characters', {
+        params: {
+            nameStartsWith: query,
+        },
+    });
 
-        dispatch({
-            type: 'GET_CHARACTERS',
-            payload: filterVariantCharacters(res),
-        });
-    } else {
-        dispatch({
-            type: 'GET_CHARACTERS',
-            payload: [],
-        });
-    }
+    dispatch({
+        type: 'GET_CHARACTERS',
+        payload: res.data,
+    });
 }, 500);
 
 // Calls the debounced character api function
-export const getCharacters = (query) => (dispatch) => searchForCharacter(dispatch, query);
+export const getCharacters = (query) =>
+    query !== undefined && query.trim() !== ''
+        ? (dispatch) => searchForCharacterAsync(dispatch, query)
+        : {
+              type: 'GET_CHARACTERS',
+              payload: 'reset',
+          };
 
-export const setQuery = (query) => {
+export const addMember = (character) => {
     return {
-        type: 'SET_QUERY',
-        payload: query,
+        type: 'ADD_MEMBER',
+        payload: character,
     };
 };
 
-export const addMember = character => {
+export const removeMember = (character) => {
     return {
-        type: 'ADD_MEMBER',
-        payload: character
-    }
-}
+        type: 'REMOVE_MEMBER',
+        payload: character,
+    };
+};
+
+export const setSelectedCharacter = (character) => {
+    return {
+        type: 'SET_SELECTED_CHARACTER',
+        payload: character,
+    };
+};
+
+export const showModal = (visibility, modalName) => {
+    return {
+        type: 'SHOW_MODAL',
+        payload: { visibility, modalName },
+    };
+};
+
+export const setTeams = (teams) => {
+    return {
+        type: 'SET_TEAMS',
+        payload: teams,
+    };
+};
+
+export const addTeam = (team) => {
+    return {
+        type: 'ADD_TEAM',
+        payload: team,
+    };
+};
+
+export const loadTeam = (team) => {
+    return {
+        type: 'LOAD_TEAM',
+        payload: team,
+    };
+};
+
+export const deleteTeam = (team) => {
+    return {
+        type: 'DELETE_TEAM',
+        payload: team,
+    };
+};

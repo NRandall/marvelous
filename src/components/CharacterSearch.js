@@ -1,41 +1,65 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCharacters, setQuery } from '../actions';
+import { getCharacters } from '../actions';
 
 export class CharacterSearch extends Component {
     state = {
         query: '',
     };
 
+    onSubmitSearch = (e) => {
+        if (e) e.preventDefault();
+        this.props.getCharacters(this.state.query);
+    };
+
     onSearchCharacters = (e) => {
-        e.preventDefault();
-        // this.props.setQuery(e.target.value)
         this.setState({ query: e.target.value });
         this.props.getCharacters(e.target.value);
     };
 
     render() {
         return (
-            <div className="mb-3 text-center text-md-left d-flex flex-col flex-md-row justify-content-around align-items-center">
-                {/* create input clear */}
-                <h1 className="banner">I Need A Hero!</h1>
-                <form className="pure-form pure-form-stacked" onSubmit={this.onSearchCharacters}>
-                    <label htmlFor="character-search"><strong>Find</strong> some help!</label>
-                    <br/><input id="character-search" className="text-body pure-input-rounded" placeholder="Search for a teammate" onChange={this.onSearchCharacters} value={this.state.query} type="text" />
-                </form>
+            <div className="my-3 text-center text-md-left pure-g flex-col flex-md-row justify-content-between align-items-center text-white container">
+                <p className="pure-u-1 pure-u-sm-1-2 pure-u-md-1-3">
+                    Search a broad selection of Marvel&trade; characters to create the perfect team for any situation.
+                </p>
+
+                <div className="search-container pure-u-1 pure-u-sm-1-2 pure-u-md-2-3 d-flex justify-content-end">
+                    <form className="pure-form pure-form-stacked ml-auto" onSubmit={this.onSubmitSearch}>
+                        <label htmlFor="character-search">
+                            <span className="material-icons">person_search</span> &nbsp;Find some <strong>help!</strong>
+                        </label>
+                        <input
+                            id="character-search"
+                            className="text-body pure-input-rounded"
+                            placeholder="Search for a teammate"
+                            onChange={this.onSearchCharacters}
+                            onFocus={(event) => event.target.select()}
+                            value={this.state.query}
+                            type="text"
+                        />
+                    </form>
+                    <button
+                        hidden={this.state.query === ''}
+                        onClick={() => this.setState({ query: '' }, this.onSubmitSearch)}
+                        title="Clear Search"
+                        className="pure-button"
+                        id="clear-search"
+                    >
+                        <span className="material-icons">close</span>
+                    </button>
+                </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = ({ characters, characterQuery }) => ({
+const mapStateToProps = ({ characters }) => ({
     characters,
-    characterQuery,
 });
 
 const mapDispatchToProps = {
     getCharacters,
-    setQuery,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterSearch);
