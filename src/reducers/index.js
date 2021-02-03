@@ -1,16 +1,16 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
-import { buildTeam, buildTeamIndex, buildTeamsReducer } from './teamReducer';
-import { characterSearchReducer, selectedCharacterReducer } from './characterReducer';
+import { teamReducer, teamIndexReducer, teamNameReducer, teamsReducer } from './teamReducer';
+import { charactersReducer, selectedCharacterDetailReducer, gettingCharactersReduce } from './characterReducer';
 import { teamModalVisibilityReducer, characterModalVisibilityReducer } from './modalReducer';
 
 export default combineReducers({
-    form: formReducer,
-    characters: characterSearchReducer,
-    team: buildTeam,
-    teamIndex: buildTeamIndex,
-    selectedCharacterDetail: selectedCharacterReducer,
+    team: teamReducer,
+    teams: teamsReducer,
+    teamName: teamNameReducer,
+    teamIndex: teamIndexReducer,
+    characters: charactersReducer,
+    loading: gettingCharactersReduce,
+    selectedCharacterDetail: selectedCharacterDetailReducer,
     teamModalVisibility: teamModalVisibilityReducer,
     characterModalVisibility: characterModalVisibilityReducer,
-    teams: buildTeamsReducer,
 });

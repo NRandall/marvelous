@@ -6,7 +6,7 @@ export const TeamModal = ({ teams, showModal, loadTeam, deleteTeam }) => {
     const ref = useRef();
 
     useEffect(() => {
-        const onBodyClick = (e) => {
+        const onBodyClick = e => {
             if (ref.current && ref.current.contains(e.target)) return;
             else showModal(false, 'team');
         };
@@ -19,27 +19,32 @@ export const TeamModal = ({ teams, showModal, loadTeam, deleteTeam }) => {
     }, [showModal, teams]);
 
     const renderTeamDetails = ({ team, id }) => {
-        return team.map((character) => {
+        return team.map(character => {
             return <div key={`${character.name}${id}`}>{character.name}</div>;
         });
     };
 
-    const onDeleteTeam = (team) => {
-        deleteTeam(team);
+    const onDeleteTeam = team => {
+        if (window.confirm('Are you sure?!')) {
+            deleteTeam(team);
+        } else window.alert('Phew... that was close.');
     };
 
-    const onLoadTeam = (team) => {
+    const onLoadTeam = team => {
         loadTeam(team);
         showModal(false, 'team');
     };
 
     const renderTeams = () => {
         return teams.length ? (
-            teams.map((team) => {
+            teams.map(team => {
                 return (
-                    <div key={team.id} className="pure-u-1 pure-u-sm-1-2 pure-u-md-1-3 pad saved-team text-center d-flex flex-col">
+                    <div
+                        key={team.id}
+                        className="pure-u-1 pure-u-sm-1-2 pure-u-md-1-3 pad saved-team text-center d-flex flex-col"
+                    >
                         <h2 className="mb-1">{team.name.toUpperCase()}</h2>
-                        <hr className="mb-2" style={{width:'100%'}} />
+                        <hr className="mb-2" style={{ width: '100%' }} />
                         <div className="d-flex flex-col my-1">
                             <div className="mb-1">{renderTeamDetails(team)}</div>
                         </div>
@@ -49,7 +54,10 @@ export const TeamModal = ({ teams, showModal, loadTeam, deleteTeam }) => {
                         >
                             <span className="material-icons">delete_outline</span> &nbsp; Delete Team
                         </button>
-                        <button className="pure-button pure-button-primary d-flex justify-content-center align-items-end my-1" onClick={() => onLoadTeam(team)}>
+                        <button
+                            className="pure-button pure-button-primary d-flex justify-content-center align-items-end my-1"
+                            onClick={() => onLoadTeam(team)}
+                        >
                             <span className="material-icons">folder_open</span> &nbsp; Load Team
                         </button>
                     </div>
@@ -72,7 +80,11 @@ export const TeamModal = ({ teams, showModal, loadTeam, deleteTeam }) => {
                 <div className="modal-body pure-g d-flex justify-content-around">{renderTeams()}</div>
                 <hr />
                 <div className="modal-footer">
-                    <button onClick={() => showModal(false, 'team')} className="pure-button pure-button-primary" title="Add this hero to your team">
+                    <button
+                        onClick={() => showModal(false, 'team')}
+                        className="pure-button pure-button-primary"
+                        title="Add this hero to your team"
+                    >
                         Okay
                     </button>
                 </div>

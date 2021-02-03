@@ -9,8 +9,8 @@ export const Nav = ({ teamModalVisibility, showModal, teams }) => {
     };
     return (
         <div id="nav" className="text-white">
-            <div className="container pad d-flex align-items-center justify-content-between pure-g">
-                <h1 id="banner-text" className="my-0 pure-u-1 pure-u-sm-2-3">
+            <div className="container pad d-flex align-items-center justify-content-evenly justify-content-between-md pure-g">
+                <h1 id="banner-text" className="my-0 pure-u-1 pure-u-sm-2-3 text-center text-md-left">
                     I Need A Hero!
                 </h1>
                 <div className="text-right">

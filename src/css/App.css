@@ -147,8 +147,13 @@ a.pure-button-selected {
     margin-top: auto;
 }
 
-ml-auto {
+.ml-auto {
     margin-left: auto;
+}
+
+.mx-auto, #character-search {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .pad {
@@ -181,6 +186,10 @@ ml-auto {
 
 .justify-content-between {
     justify-content: space-between;
+}
+
+.justify-content-evenly {
+    justify-content: space-evenly;
 }
 
 .justify-content-around {
@@ -242,31 +251,20 @@ polygon {
     padding-left: 15px;
 }
 
-#clear-search {
-    position: absolute;
-    bottom: 0;
-    right: -3px;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    color: #444;
-    border: 1px solid #cacaca;
-    background: white;
-    filter: drop-shadow(2px 4px 6px black);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 9px;
-}
-#clear-search span {
-    font-size: 30px;
-    margin-left: 2px;
+.link-button{
+    background: transparent;
+    color: #66666f;
+    text-decoration: underline;
 }
 
-#clear-search:focus {
+.link-button:hover {
+    color: #ccc;
+}
+
+.link-button:focus {
     outline: none;
 }
-#clear-search:active {
+.link-button:active {
     border-style: none;
 }
 
@@ -295,6 +293,8 @@ polygon {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.6);
 }
+
+.loading-text {transition: all .3s;}
 
 .modal {
     background-color: #fefefe;
@@ -382,11 +382,17 @@ polygon {
     .stat-head {
         font-size: 3.3em;
     }
+
     .modal {
         padding: 0.5em 1.5em 1.5em;
         width: 80%;
     }
+
     .modal-footer {
         text-align: right;
+    }
+
+    .justify-content-between-md {
+        justify-content: space-between;
     }
 }

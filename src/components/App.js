@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import 'animate.css';
-import { setTeams } from '../actions';
 
-import './App.css';
 import Nav from './Nav';
+import TeamList from './TeamList';
 import CharacterSearch from './CharacterSearch';
 import SearchResults from './SearchResults';
-import TeamList from './TeamList';
 import StatModal from './StatModal';
 import TeamsModal from './TeamsModal';
+import { setTeams } from '../actions';
+import '../css/App.css';
 
 export const App = ({ teamModalVisibility, characterModalVisibility, selectedCharacterDetail, setTeams }) => {
     useEffect(() => {

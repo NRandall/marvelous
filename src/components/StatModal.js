@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { addMember, removeMember, setSelectedCharacter, showModal } from '../actions';
 
-export const StatModal = ({ selected, setSelectedCharacter, addMember, removeMember, teamIndex, characterModalVisibility, showModal }) => {
+export const StatModal = ({ selected, addMember, removeMember, teamIndex, showModal }) => {
     const ref = useRef();
 
     useEffect(() => {
-        const onBodyClick = (e) => {
+        const onBodyClick = e => {
             if (ref.current && ref.current.contains(e.target)) return;
             else showModal(false, 'character');
         };
@@ -20,7 +20,7 @@ export const StatModal = ({ selected, setSelectedCharacter, addMember, removeMem
 
     const renderVariants = () => {
         if (selected.variants) {
-            return selected.variants.map((variant) => {
+            return selected.variants.map(variant => {
                 return <li key={variant.id}>{variant.name}</li>;
             });
         }
@@ -36,7 +36,7 @@ export const StatModal = ({ selected, setSelectedCharacter, addMember, removeMem
     const description = () => {
         if (selected.main.description) return selected.main.description;
         else {
-            const secondaryDescription = selected.variants.find((variant) => variant.description !== '');
+            const secondaryDescription = selected.variants.find(variant => variant.description !== '');
             if (secondaryDescription) return secondaryDescription.description;
         }
         return `We don't have any description for this person, but don't let that stop you from choosing them! ${
@@ -65,7 +65,11 @@ export const StatModal = ({ selected, setSelectedCharacter, addMember, removeMem
                 <hr />
                 <div className="modal-body pure-g">
                     <div className="pure-u-1 pure-u-md-1-3 text-center">
-                        <img className="pure-img" src={`${selected.main.thumbnail.path}/portrait_uncanny.jpg`} alt={`${selected.name} portrait`} />
+                        <img
+                            className="pure-img"
+                            src={`${selected.main.thumbnail.path}/portrait_uncanny.jpg`}
+                            alt={`${selected.name} portrait`}
+                        />
                     </div>
                     <div className="pure-u-1 pure-u-md-2-3 d-flex flex-col">
                         <h1 className="stat-head text-center text-md-left">{selected.main.name}</h1>
@@ -74,19 +78,19 @@ export const StatModal = ({ selected, setSelectedCharacter, addMember, removeMem
                         <div className="appearance-stats">
                             <div className="appearance-stat">
                                 <span>{selected.main.comics.available}</span> <br />
-                                Comics
+                                Comic{selected.main.comics.available === 1 ? '' : 's'}
                             </div>
                             <div className="appearance-stat">
                                 <span>{selected.main.series.available}</span> <br />
-                                Series
+                                Serie{selected.main.series.available === 1 ? '' : 's'}
                             </div>
                             <div className="appearance-stat">
                                 <span>{selected.main.stories.available}</span> <br />
-                                Stories
+                                Storie{selected.main.stories.available === 1 ? '' : 's'}
                             </div>
                             <div className="appearance-stat">
                                 <span>{selected.main.events.available}</span> <br />
-                                Events
+                                Event{selected.main.events.available === 1 ? '' : 's'}
                             </div>
                         </div>
                     </div>
