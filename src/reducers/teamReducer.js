@@ -8,6 +8,8 @@ export const teamReducer = (team = [], action) => {
         return [...team.slice(0, foundIndex), ...team.slice(foundIndex + 1)];
     } else if (action.type === 'LOAD_TEAM') {
         return [...action.payload.team];
+    } else if (action.type === 'DELETE_TEAM') {
+        return [];
     }
     return team;
 };
@@ -22,6 +24,8 @@ export const teamIndexReducer = (teamIndex = {}, action) => {
         return newIndex;
     } else if (action.type === 'LOAD_TEAM') {
         return { ...action.payload.teamIndex };
+    } else if (action.type === 'DELETE_TEAM') {
+        return {};
     }
     return teamIndex;
 };
@@ -37,9 +41,7 @@ export const teamNameReducer = (teamName = '', action) => {
 
 export const teamsReducer = (teams = [], action) => {
     if (action.type === 'SET_TEAMS') {
-        return action.payload;
-    } else if (action.type === 'ADD_TEAM') {
-        return [...teams, action.payload];
+        return action.payload.teams;
     } else if (action.type === 'DELETE_TEAM') {
         const teamIndex = teams.findIndex(team => team.name === action.payload.name);
         let newTeams = [...teams.slice(0, teamIndex), ...teams.slice(teamIndex + 1)];
@@ -47,4 +49,20 @@ export const teamsReducer = (teams = [], action) => {
         return newTeams;
     }
     return teams;
+};
+
+export const teamChangedStatusReducer = (dirty = false, action) => {
+    if (action.type === 'UPDATE_TEAM_NAME' || action.type === 'ADD_MEMBER' || action.type === 'REMOVE_MEMBER') {
+        return true;
+    } else if (action.type === 'SET_TEAMS') {
+        return false;
+    }
+    return dirty;
+};
+
+export const newTeamStatusReducer = (isNewTeam = true, action) => {
+    if (action.type === 'SET_TEAMS' && !action.payload.onLoad) {
+        return false;
+    }
+    return isNewTeam;
 };

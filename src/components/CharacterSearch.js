@@ -8,7 +8,10 @@ export class CharacterSearch extends Component {
     };
 
     onSubmitSearch = e => {
-        if (e) e.preventDefault();
+        if (e && e.key === 'Enter') {
+            e.preventDefault();
+        }
+
         this.props.getCharacters(this.state.query);
     };
 
@@ -20,21 +23,20 @@ export class CharacterSearch extends Component {
 
     render() {
         return (
-            <div className="my-3 pure-g text-white container pad">
+            <div className="my-3 pure-g text-white container pad w-100">
                 <div className="pure-u-1 pure-u-md-1-2 mx-auto">
-                    <p class="text-center">
-                        Search a broad selection of Marvel&trade; characters to create the perfect team for any
-                        situation.
-                    </p>
-                    <form className="pure-form text-center" onSubmit={this.onSubmitSearch}>
+                    <p className="text-center">Search a broad selection of Marvel&trade; characters to create the perfect team for any situation.</p>
+                    <form className="pure-form text-center" onSubmit={e => e.preventDefault()}>
                         <input
                             id="character-search"
                             className="text-body text-center"
                             placeholder="Search for a teammate"
                             onChange={this.onSearchCharacters}
+                            onKeyPress={this.onSubmitSearch}
                             onFocus={event => event.target.select()}
                             value={this.state.query}
                             type="text"
+                            title="Search For Teammates To Recruit"
                         />
                         <button
                             hidden={this.state.query === ''}

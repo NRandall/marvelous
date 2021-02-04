@@ -6,14 +6,7 @@ export const SearchResults = ({ characters, loading }) => {
     const renderCharacters = () => {
         if (!loading)
             return characters.map((character, i) => {
-                return (
-                    <CharacterCard
-                        key={character.main.id}
-                        character={character}
-                        index={i}
-                        imageType="standard_medium"
-                    />
-                );
+                return <CharacterCard key={character.main.id} character={character} index={i} imageType="standard_medium" />;
             });
         else
             return (
@@ -24,7 +17,7 @@ export const SearchResults = ({ characters, loading }) => {
     };
 
     return (
-        <div id="search-results" className="pure-g container d-flex justify-content-center">
+        <div id="search-results" className="pure-g container d-flex justify-content-center w-100">
             {renderCharacters()}
         </div>
     );

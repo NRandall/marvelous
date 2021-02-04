@@ -65,11 +65,7 @@ export const StatModal = ({ selected, addMember, removeMember, teamIndex, showMo
                 <hr />
                 <div className="modal-body pure-g">
                     <div className="pure-u-1 pure-u-md-1-3 text-center">
-                        <img
-                            className="pure-img"
-                            src={`${selected.main.thumbnail.path}/portrait_uncanny.jpg`}
-                            alt={`${selected.name} portrait`}
-                        />
+                        <img className="pure-img" src={`${selected.main.thumbnail.path}/portrait_uncanny.jpg`} alt={`${selected.name} portrait`} />
                     </div>
                     <div className="pure-u-1 pure-u-md-2-3 d-flex flex-col">
                         <h1 className="stat-head text-center text-md-left">{selected.main.name}</h1>

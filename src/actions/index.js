@@ -1,33 +1,32 @@
 import { debounce } from 'lodash';
 import marvel from '../api/marvel';
 
-// Gets a list of characters based on user query (matches start of name)
 const searchForCharacterAsync = debounce((dispatch, query) => {
-    marvel
-        .get('/v1/public/characters', {
-            params: {
-                nameStartsWith: query,
-            },
-        })
-        .then(res => {
-            dispatch({
-                type: 'GET_CHARACTERS',
-                payload: res.data,
+    if (query !== undefined && query.trim() !== '') {
+        marvel
+            .get('/v1/public/characters', {
+                params: {
+                    nameStartsWith: query,
+                },
+            })
+            .then(res => {
+                dispatch({
+                    type: 'GET_CHARACTERS',
+                    payload: res.data,
+                });
+            })
+            .catch(err => {
+                console.error(err);
             });
-        })
-        .catch(err => {
-            console.error(err);
+    } else {
+        dispatch({
+            type: 'GET_CHARACTERS',
+            payload: 'reset',
         });
-}, 500);
+    }
+}, 300);
 
-// Calls the debounced character api function
-export const getCharacters = query =>
-    query !== undefined && query.trim() !== ''
-        ? dispatch => searchForCharacterAsync(dispatch, query)
-        : {
-              type: 'GET_CHARACTERS',
-              payload: 'reset',
-          };
+export const getCharacters = query => dispatch => searchForCharacterAsync(dispatch, query);
 
 export const addMember = character => {
     return {
@@ -57,17 +56,10 @@ export const showModal = (visibility, modalName) => {
     };
 };
 
-export const setTeams = teams => {
+export const setTeams = (teams, onLoad) => {
     return {
         type: 'SET_TEAMS',
-        payload: teams,
-    };
-};
-
-export const addTeam = team => {
-    return {
-        type: 'ADD_TEAM',
-        payload: team,
+        payload: { teams, onLoad },
     };
 };
 

@@ -8,6 +8,7 @@ import CharacterSearch from './CharacterSearch';
 import SearchResults from './SearchResults';
 import StatModal from './StatModal';
 import TeamsModal from './TeamsModal';
+import Footer from './Footer';
 import { setTeams } from '../actions';
 import '../css/App.css';
 
@@ -15,7 +16,7 @@ export const App = ({ teamModalVisibility, characterModalVisibility, selectedCha
     useEffect(() => {
         const teams = JSON.parse(localStorage.getItem('teams'));
         if (teams !== null) {
-            setTeams(teams);
+            setTeams(teams, true);
         }
     }, [setTeams]);
     const renderCharacterModal = () => {
@@ -25,11 +26,12 @@ export const App = ({ teamModalVisibility, characterModalVisibility, selectedCha
         return teamModalVisibility ? <TeamsModal /> : null;
     };
     return (
-        <div>
+        <div className="d-flex h-100 flex-col">
             <Nav />
             <TeamList />
             <CharacterSearch />
             <SearchResults />
+            <Footer />
             {renderCharacterModal()}
             {renderTeamModal()}
         </div>

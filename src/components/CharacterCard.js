@@ -5,8 +5,8 @@ import CheckMark from './CheckMark';
 
 export const CharacterCard = ({ teamIndex, setSelectedCharacter, index, character, showModal, imageType }) => {
     const onTeam = teamIndex[character.main.id] !== undefined;
-    const onShowCharacterDetails = (e) => {
-        e.stopPropagation()
+    const onShowCharacterDetails = e => {
+        e.stopPropagation();
         setSelectedCharacter(character);
         showModal(true, 'character');
     };
@@ -17,6 +17,7 @@ export const CharacterCard = ({ teamIndex, setSelectedCharacter, index, characte
             ${index < 5 ? index : 5}s 
             ${onTeam ? 'on-team' : ''}`}
             onClick={onShowCharacterDetails}
+            title="Click To See Details"
         >
             <img src={`${character.main.thumbnail.path}/${imageType}.jpg`} alt="" />
             <h3 className="mb-1">{character.name}</h3>
@@ -28,11 +29,11 @@ export const CharacterCard = ({ teamIndex, setSelectedCharacter, index, characte
     );
 };
 
-const mapStateToProps = ({  teamIndex }) => ({  teamIndex });
+const mapStateToProps = ({ teamIndex }) => ({ teamIndex });
 
 const mapDispatchToProps = {
     setSelectedCharacter,
-    showModal
+    showModal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterCard);

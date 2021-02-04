@@ -10,7 +10,7 @@ export default function Modal({ body, footer, hideCallback }) {
     };
 
     useEffect(() => {
-        const onBodyClick = (e) => {
+        const onBodyClick = e => {
             if (ref.current && ref.current.contains(e.target)) return;
             else {
                 hideModal();
