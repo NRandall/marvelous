@@ -61,6 +61,7 @@ a.pure-button-selected {
 
 #team-input {
     border-radius: 2px 0 0 2px;
+    margin-bottom: 0;
 }
 
 .save-team-button {

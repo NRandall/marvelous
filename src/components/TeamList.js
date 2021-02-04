@@ -28,6 +28,7 @@ export const TeamList = ({ team, teams, teamIndex, teamName, setTeamName, setTea
         return isNewTeam ? (
             <input
                 id="team-input"
+                className="mb-0"
                 placeholder="Name Your Team"
                 onKeyPress={onSaveTeamNameCheck}
                 onChange={e => setTeamName(e.target.value)}
@@ -42,7 +43,7 @@ export const TeamList = ({ team, teams, teamIndex, teamName, setTeamName, setTea
     const renderSave = () => {
         return teamName && teamTouched ? (
             <button disabled={!teamName} onClick={onSaveTeam} className="pure-button pure-button-error save-team-button">
-                <span className="material-icons">save</span>&nbsp;Save Team
+                <span className="material-icons">save</span>&nbsp;Save
             </button>
         ) : null;
     };

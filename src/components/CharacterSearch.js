@@ -23,13 +23,13 @@ export class CharacterSearch extends Component {
 
     render() {
         return (
-            <div className="my-3 pure-g text-white container pad w-100">
-                <div className="pure-u-1 pure-u-md-1-2 mx-auto">
+            <div className="my-3 pure-g text-white container pad">
+                <div className="pure-u-1 pure-u-md-3-5 mx-auto">
                     <p className="text-center">Search a broad selection of Marvel&trade; characters to create the perfect team for any situation.</p>
                     <form className="pure-form text-center" onSubmit={e => e.preventDefault()}>
                         <input
                             id="character-search"
-                            className="text-body text-center"
+                            className="text-body text-center mb-0"
                             placeholder="Search for a teammate"
                             onChange={this.onSearchCharacters}
                             onKeyPress={this.onSubmitSearch}
